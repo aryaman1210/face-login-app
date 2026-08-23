@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Face Recognition System</h2>
+        
+        <div class="tabs">
+            <button id="tab-login" class="active" onclick="switchTab('login')">Login</button>
+            <button id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+        </div>
+
+        <div class="camera-container">
+            <video id="video" width="320" height="240" autoplay playsinline></video>
+            <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+            <p id="camera-status">Initializing camera...</p>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form" class="form-container">
+            <input type="text" id="login-username" placeholder="Username" required>
+            <button onclick="handleLogin()" id="btn-login" class="primary-btn">Login with Face</button>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signup-form" class="form-container" style="display:none;">
+            <input type="text" id="signup-username" placeholder="Username" required>
+            <input type="text" id="signup-first-name" placeholder="First Name" required>
+            <input type="text" id="signup-last-name" placeholder="Last Name" required>
+            <button onclick="handleSignup()" id="btn-signup" class="primary-btn">Sign Up with Face</button>
+        </div>
+
+        <div id="status-message" class="message"></div>
+    </div>
+
+    <!-- Logged in view -->
+    <div id="dashboard" class="container" style="display:none;">
+        <h2 id="welcome-message">Welcome!</h2>
+        <p>You have successfully logged in using facial recognition.</p>
+        <button onclick="logout()" class="secondary-btn">Log Out</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
