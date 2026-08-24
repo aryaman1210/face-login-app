@@ -1,0 +1,3 @@
+Please first signup and then login.
+URL - https://face-login-app-kappa.vercel.app/
+Copy the URL and paste on the browser.
