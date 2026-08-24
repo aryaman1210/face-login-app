@@ -1,5 +1,5 @@
 const API_BASE_URL = 'https://face-login-app-uxmt.onrender.com/api';
-const MODEL_URL = 'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights';
+const MODEL_URL = '/models';
 
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
