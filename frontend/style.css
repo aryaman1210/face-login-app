@@ -70,6 +70,16 @@ h2 {
     transform: scaleX(-1); /* Mirror effect */
 }
 
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: scaleX(-1);
+    pointer-events: none;
+}
+
 #camera-status {
     position: absolute;
     top: 50%;

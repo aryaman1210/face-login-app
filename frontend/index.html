@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="main-container">
         <h2>Face Recognition System</h2>
-        
+
         <div class="tabs">
             <button id="tab-login" class="active" onclick="switchTab('login')">Login</button>
             <button id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
@@ -17,14 +17,15 @@
 
         <div class="camera-container">
             <video id="video" width="320" height="240" autoplay playsinline></video>
+            <canvas id="overlay" width="320" height="240"></canvas>
             <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
-            <p id="camera-status">Initializing camera...</p>
+            <p id="camera-status">Loading AI models... Please wait ⏳</p>
         </div>
 
         <!-- Login Form -->
         <div id="login-form" class="form-container">
             <input type="text" id="login-username" placeholder="Username" required>
-            <button onclick="handleLogin()" id="btn-login" class="primary-btn">Login with Face</button>
+            <button onclick="handleLogin()" id="btn-login" class="primary-btn" disabled>Loading...</button>
         </div>
 
         <!-- Signup Form -->
@@ -32,19 +33,21 @@
             <input type="text" id="signup-username" placeholder="Username" required>
             <input type="text" id="signup-first-name" placeholder="First Name" required>
             <input type="text" id="signup-last-name" placeholder="Last Name" required>
-            <button onclick="handleSignup()" id="btn-signup" class="primary-btn">Sign Up with Face</button>
+            <button onclick="handleSignup()" id="btn-signup" class="primary-btn" disabled>Loading...</button>
         </div>
 
         <div id="status-message" class="message"></div>
     </div>
 
-    <!-- Logged in view -->
+    <!-- Logged in dashboard -->
     <div id="dashboard" class="container" style="display:none;">
         <h2 id="welcome-message">Welcome!</h2>
         <p>You have successfully logged in using facial recognition.</p>
         <button onclick="logout()" class="secondary-btn">Log Out</button>
     </div>
 
+    <!-- face-api.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
