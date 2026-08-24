@@ -93,12 +93,19 @@ function startFaceDetectionLoop() {
     const ctx = overlay.getContext('2d');
     setInterval(async () => {
         if (!modelsLoaded || video.paused || video.ended) return;
+
+        // Always sync canvas size to the actual displayed video size
+        const displaySize = { width: video.offsetWidth, height: video.offsetHeight };
+        faceapi.matchDimensions(overlay, displaySize);
+
         ctx.clearRect(0, 0, overlay.width, overlay.height);
         const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions());
         if (detection) {
-            const { x, y, width, height } = detection.box;
+            // Scale the detection box to match the display size
+            const resized = faceapi.resizeResults(detection, displaySize);
+            const { x, y, width, height } = resized.box;
             ctx.strokeStyle = '#00ff88';
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 3;
             ctx.strokeRect(x, y, width, height);
         }
     }, 300);
