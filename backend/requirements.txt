@@ -1,9 +1,9 @@
 fastapi
 uvicorn
-deepface
 supabase
 python-multipart
 python-dotenv
-tf-keras
 pydantic
 opencv-python-headless
+cmake
+face_recognition
