@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+supabase
+python-multipart
+python-dotenv
+pydantic
+opencv-python-headless
+cmake
+face_recognition
+gradio

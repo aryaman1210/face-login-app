@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 # We need to import deepface and ignore some tf warnings if possible
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-from deepface import DeepFace
+
 
 load_dotenv()
 
@@ -131,39 +131,42 @@ async def login(req: LoginRequest):
             with os.fdopen(fd, 'wb') as f:
                 f.write(response_download.read())
         
-        # 4. Run DeepFace verification
-        # Using the exact logic requested by the user
-        import tensorflow as tf
-        tf.config.threading.set_intra_op_parallelism_threads(1)
-        tf.config.threading.set_inter_op_parallelism_threads(1)
-
-        result = DeepFace.verify(
-            img1_path=login_img_path, 
-            img2_path=ref_img_path, 
-            model_name="OpenFace",
-            distance_metric="cosine",
-            detector_backend="opencv",
-            enforce_detection=True 
-        )
+        import face_recognition
         
-        print(f"DeepFace result: {result}")
-        distance = result.get('distance', 1.0)
-        is_verified = result.get('verified', False)
-        print(f"Distance calculated: {distance}, Verified: {is_verified}")
+        # Load images
+        login_img = face_recognition.load_image_file(login_img_path)
+        ref_img = face_recognition.load_image_file(ref_img_path)
+        
+        # Get encodings
+        login_encodings = face_recognition.face_encodings(login_img)
+        ref_encodings = face_recognition.face_encodings(ref_img)
+        
+        if not login_encodings:
+            return {
+                "success": False,
+                "message": "No face detected in the camera image. Please make sure you are clearly visible."
+            }
+            
+        if not ref_encodings:
+            return {
+                "success": False,
+                "message": "No face detected in the saved profile image."
+            }
+            
+        # Compare
+        is_verified = face_recognition.compare_faces([ref_encodings[0]], login_encodings[0], tolerance=0.5)[0]
         
         if is_verified:
             return {
                 "success": True, 
                 "message": "Same Person",
                 "first_name": user["first_name"],
-                "last_name": user["last_name"],
-                "distance": distance
+                "last_name": user["last_name"]
             }
         else:
             return {
                 "success": False,
-                "message": "Face did not match",
-                "distance": distance
+                "message": "Face did not match"
             }
             
     except ValueError as e:
