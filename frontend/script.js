@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8000/api'; // Update this when deploying
+const API_BASE_URL = 'https://face-login-app-uxmt.onrender.com/api'; // Update this when deploying
 
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
@@ -44,6 +44,7 @@ function captureFrame() {
 function showMessage(text, type) {
     statusMessage.textContent = text;
     statusMessage.className = `message ${type}`;
+    statusMessage.style.display = ''; // Clear the inline display:none
 }
 
 function hideMessage() {
