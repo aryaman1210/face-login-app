@@ -136,18 +136,18 @@ async def login(req: LoginRequest):
         result = DeepFace.verify(
             img1_path=login_img_path, 
             img2_path=ref_img_path, 
-            model_name="Facenet",
+            model_name="ArcFace",
             distance_metric="cosine",
-            detector_backend="opencv",
+            detector_backend="retinaface",
             enforce_detection=True 
         )
         
         print(f"DeepFace result: {result}")
-        strict_threshold = 0.35 # Adjusted for Facenet
         distance = result.get('distance', 1.0)
-        print(f"Distance calculated: {distance}")
+        is_verified = result.get('verified', False)
+        print(f"Distance calculated: {distance}, Verified: {is_verified}")
         
-        if distance < strict_threshold:
+        if is_verified:
             return {
                 "success": True, 
                 "message": "Same Person",
