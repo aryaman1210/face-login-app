@@ -133,12 +133,16 @@ async def login(req: LoginRequest):
         
         # 4. Run DeepFace verification
         # Using the exact logic requested by the user
+        import tensorflow as tf
+        tf.config.threading.set_intra_op_parallelism_threads(1)
+        tf.config.threading.set_inter_op_parallelism_threads(1)
+
         result = DeepFace.verify(
             img1_path=login_img_path, 
             img2_path=ref_img_path, 
-            model_name="ArcFace",
+            model_name="OpenFace",
             distance_metric="cosine",
-            detector_backend="retinaface",
+            detector_backend="opencv",
             enforce_detection=True 
         )
         
